@@ -43,6 +43,10 @@ void StripComment(std::string& text)
 				state = kMutilLineComment;
 				comment_begin_index = i - 1;
 			}
+			else if(this_char == '\"')
+			{
+				state = kInQuotes;
+			}
 			break;
 		}
 		case kSingleLineComment:
@@ -69,6 +73,14 @@ void StripComment(std::string& text)
 				i = comment_begin_index - 1;		//重新指向注释开始的前一个字符
 				this_char = text[i];
 				comment_begin_index = 0;
+			}
+			break;
+		}
+		case kInQuotes:
+		{
+			if(this_char == '\"')
+			{
+				state = kNormaltext;
 			}
 			break;
 		}
